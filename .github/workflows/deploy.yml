@@ -25,5 +25,11 @@ jobs:
           echo "${KUBECONFIG}" > ~/.kube/config
           chmod 600 ~/.kube/config
 
+      - name: Check
+        run: |
+          ls -la ~/.kube/config
+          head -2 ~/.kube/config
+          grep contabo ~/.kube/config
+
       - name: Deploy app
         run: helm upgrade --kube-context=contabo --install --namespace=temporal -f values.yaml temporal .
