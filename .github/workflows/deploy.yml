@@ -20,6 +20,8 @@ jobs:
         uses: azure/setup-helm@v3
       
       - name: Save Kube Config
+        env: # Or as an environment variable
+         KUBECONFIG: ${{ secrets.KUBECONFIG }}
         run: |
           mkdir -p ~/.kube/
           echo "${KUBECONFIG}" > ~/.kube/config
@@ -28,8 +30,6 @@ jobs:
       - name: Check
         run: |
           ls -la ~/.kube/config
-          head -2 ~/.kube/config
-          grep contabo ~/.kube/config
 
       - name: Deploy app
         run: helm upgrade --kube-context=contabo --install --namespace=temporal -f values.yaml temporal .
