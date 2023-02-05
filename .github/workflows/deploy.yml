@@ -26,4 +26,4 @@ jobs:
           chmod 600 ~/.kube/config
 
       - name: Deploy app
-        run: helm upgrade --install --namespace=temporal -f values.yaml temporal .
+        run: helm upgrade --kube-context=contabo --install --namespace=temporal -f values.yaml temporal .
