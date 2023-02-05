@@ -82,8 +82,8 @@ fi
 echo "Running admin-tools..."
 
 docker run --rm \
-  -v "$PWD/bin/init-schema-admin-tool.sh":/bin/init-schema-admin-tool.sh \
-  --entrypoint=/bin/init-schema-admin-tool.sh \
+  -v "$PWD/bin/_init-schema-script.sh":/bin/_init-schema-script.sh \
+  --entrypoint=/bin/_init-schema-script.sh \
   -e SQL_PLUGIN="$SQL_PLUGIN" \
   -e SQL_HOST="$SQL_HOST" \
   -e SQL_PORT="$SQL_PORT" \
