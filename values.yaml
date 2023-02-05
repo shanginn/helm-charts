@@ -1,24 +1,10 @@
-nameOverride: ""
-fullnameOverride: ""
-
-# Chart debug mode
-# (eg. disable helm hook delete policy)
 debug: false
 
-# Custom Service account management
 serviceAccount:
-  # Whether to create service account or not
   create: false
-
-  # Name of the service account, default: temporal.fullname
-  name:
-
-  # extraAnnotations would let users add additional annotations
-  extraAnnotations:
 
 server:
   enabled: true
-  sidecarContainers:
   image:
     repository: temporalio/server
     tag: 1.19.1
@@ -27,59 +13,12 @@ server:
   # Global default settings (can be overridden per service)
   replicaCount: 1
   metrics:
-    # Annotate pods directly with Prometheus annotations.
-    # Use this if you installed Prometheus from a Helm chart.
     annotations:
       enabled: true
-    # Enable Prometheus ServiceMonitor
-    # Use this if you installed the Prometheus Operator (https://github.com/coreos/prometheus-operator).
     serviceMonitor:
       enabled: false
-      interval: 30s
-      # Set additional lables to all the ServiceMonitor resources
-      additionalLabels: {}
-      #  label1: value1
-      #  label2: value2
-      # Set Prometheus metric_relabel_configs via ServiceMonitor
-      # Use metricRelabelings to adjust metric and label names as needed
-      metricRelabelings: []
-      # - action: replace
-      #   sourceLabels:
-      #   - exported_namespace
-      #   targetLabel: temporal_namespace
-      # - action: replace
-      #   regex: service_errors_(.+)
-      #   replacement: ${1}
-      #   sourceLabels:
-      #   - __name__
-      #   targetLabel: temporal_error_kind
-      # - action: replace
-      #   regex: service_errors_.+
-      #   replacement: temporal_service_errors
-      #   sourceLabels:
-      #   - __name__
-      #   targetLabel: __name__
     prometheus:
       timerType: histogram
-  podAnnotations: {}
-  podLabels: {}
-  resources:
-    {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #  cpu: 100m
-  #  memory: 128Mi
-  # requests:
-  #  cpu: 100m
-  #  memory: 128Mi
-  nodeSelector: {}
-  tolerations: []
-  affinity: {}
-  additionalVolumes: []
-  additionalVolumeMounts: []
 
   config:
     logLevel: "debug,info"
@@ -92,70 +31,30 @@ server:
       additionalStores: {}
 
       default:
-        driver: "cassandra"
-
-        cassandra:
-          hosts: []
-          # port: 9042
-          keyspace: "temporal"
-          user: "user"
-          password: "password"
-          existingSecret: ""
-          replicationFactor: 1
-          consistency:
-            default:
-              consistency: "local_quorum"
-              serialConsistency: "local_serial"
-          # datacenter: "us-east-1a"
-          # maxQPS: 1000
-          # maxConns: 2
+        driver: "sql"
 
         sql:
-          driver: "mysql"
-          host: "mysql"
-          port: 3306
-          database: "temporal"
-          user: "temporal"
-          password: "temporal"
-          existingSecret: ""
-          secretName: ""
+          driver: "postgres"
+          host: pgsql-postgresql.pgsql
+          port: 5432
+          database: temporal
+          user: temporal_user
+          existingSecret: temporal-default-store
           maxConns: 20
           maxConnLifetime: "1h"
-          # connectAttributes:
-            # tx_isolation: 'READ-COMMITTED'
 
       visibility:
-        driver: "cassandra"
-
-        cassandra:
-          hosts: []
-          # port: 9042
-          keyspace: "temporal_visibility"
-          user: "user"
-          password: "password"
-          existingSecret: ""
-          # datacenter: "us-east-1a"
-          # maxQPS: 1000
-          # maxConns: 2
-          replicationFactor: 1
-          consistency:
-            default:
-              consistency: "local_quorum"
-              serialConsistency: "local_serial"
+        driver: "sql"
 
         sql:
-          driver: "mysql"
-          host: "mysql"
-          port: 3306
-          database: "temporal_visibility"
-          user: "temporal"
-          password: "temporal"
-          existingSecret: ""
-          secretName: ""
+          driver: "postgres"
+          host: pgsql-postgresql.pgsql
+          port: 5432
+          database: temporal_visibility
+          user: temporal_user
+          existingSecret: temporal-visibility-store
           maxConns: 20
           maxConnLifetime: "1h"
-          # connectAttributes:
-          #   tx_isolation: 'READ-COMMITTED'
 
   frontend:
     # replicaCount: 1
@@ -316,26 +215,12 @@ web:
 
 schema:
   setup:
-    enabled: true
-    backoffLimit: 100
+    enabled: false
   update:
-    enabled: true
-    backoffLimit: 100
+    enabled: false
 
 elasticsearch:
-  enabled: true
-  replicas: 3
-  persistence:
-    enabled: false
-  imageTag: 7.17.3
-  host: elasticsearch-master-headless
-  scheme: http
-  port: 9200
-  version: "v7"
-  logLevel: "error"
-  username: ""
-  password: ""
-  visibilityIndex: "temporal_visibility_v1_dev"
+  enabled: false
 
 prometheus:
   enabled: true
@@ -400,23 +285,7 @@ grafana:
          datasource: TemporalMetrics
 
 cassandra:
-  enabled: true
-  persistence:
-    enabled: false
-  image:
-    repo: cassandra
-    tag: 3.11.3
-    pullPolicy: IfNotPresent
-  config:
-    cluster_size: 3
-    ports:
-      cql: 9042
-    num_tokens: 4
-    max_heap_size: 512M
-    heap_new_size: 128M
-    seed_size: 0
-  service:
-    type: ClusterIP
+  enabled: false
 
 mysql:
   enabled: false
