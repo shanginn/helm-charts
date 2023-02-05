@@ -1,9 +1,11 @@
-name: Install/Update Helm Chart
+name: Deploy Helm Chart
 
 on:
   push:
     branches:
       - main
+      - release/*
+  workflow_dispatch:
 
 jobs:
   release:
