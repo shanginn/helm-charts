@@ -3,7 +3,7 @@ name: Deploy Helm Chart
 on:
   push:
     branches:
-      - main
+      - master
       - release/*
   workflow_dispatch:
 
