@@ -1,0 +1,24 @@
+name: Install/Update Helm Chart
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+      
+      - name: Save Kube Config
+        run: mkdir -p ~/.kube/ && echo "${KUBECONFIG}" > ~/.kube/config
+
+      - name: Deploy app
+        run: helm upgrade --install --namespace=temporal -f values.yaml temporal .
