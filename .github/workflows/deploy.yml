@@ -18,7 +18,7 @@ jobs:
 
       - name: Install Helm
         uses: azure/setup-helm@v3
-      
+
       - name: Save Kube Config
         env:
          KUBECONFIG: ${{ secrets.KUBECONFIG }}
@@ -26,6 +26,9 @@ jobs:
           mkdir -p ~/.kube/
           echo "${KUBECONFIG}" > ~/.kube/config
           chmod 600 ~/.kube/config
+
+      - name: Update Helm dependencies
+        run: helm dependency update
 
       - name: Deploy app
         run: helm upgrade --kube-context=temporal-server --install --namespace=temporal -f values.yaml temporal .
