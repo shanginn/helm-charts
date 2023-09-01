@@ -180,10 +180,10 @@ web:
   ingress:
     enabled: true
     # className:
-    annotations: {}
-    # kubernetes.io/ingress.class: traefik
-    # ingress.kubernetes.io/ssl-redirect: "false"
-    # traefik.frontend.rule.type: PathPrefix
+    annotations:
+      nginx.ingress.kubernetes.io/auth-type: basic
+      nginx.ingress.kubernetes.io/auth-secret: basic-auth
+      nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
     hosts:
       - "temporal-web.minikube"
     tls: []
