@@ -75,7 +75,7 @@ if [ "${SQL_PLUGIN}" == "mysql" ]; then
 elif [ "${SQL_PLUGIN}" == "postgres" ]; then
   SCHEMA_DIR_PREFIX="./schema/postgresql/v96"
 else
-  echo "Please set correct SQL_PLUGIN."
+  echo "Please set correct SQL_PLUGIN. 'mysql' or 'postgres'"
   exit 1
 fi
 
