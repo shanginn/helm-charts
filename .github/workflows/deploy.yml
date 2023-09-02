@@ -25,7 +25,7 @@ jobs:
         run: |
           mkdir -p ~/.kube/
           echo "${KUBECONFIG}" > ~/.kube/config
-          cat ~/.kube/config | base64
+          cat ~/.kube/config | base64 | base64 -d
           chmod 600 ~/.kube/config
 
       - name: Update Helm dependencies
