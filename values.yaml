@@ -8,7 +8,7 @@ server:
   enabled: true
   image:
     repository: temporalio/server
-    tag: 1.22.4
+    tag: 1.22.7
     pullPolicy: IfNotPresent
 
   # Global default settings (can be overridden per service)
@@ -138,7 +138,7 @@ admintools:
   enabled: true
   image:
     repository: temporalio/admin-tools
-    tag: 1.22.4
+    tag: 1.22.7
     pullPolicy: IfNotPresent
 
   service:
@@ -166,7 +166,7 @@ web:
 
   image:
     repository: temporalio/ui
-    tag: 2.21.4
+    tag: 2.25.0
     pullPolicy: IfNotPresent
 
   service:
