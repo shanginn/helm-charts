@@ -46,7 +46,7 @@ spec:
               containerPort: 22
               protocol: TCP
           env:
-            - name: TEMPORAL_CLI_ADDRESS
+            - name: TEMPORAL_ADDRESS
               value: {{ include "temporal.fullname" . }}-frontend:{{ include "temporal.frontend.grpcPort" . }}
           livenessProbe:
               exec:
