@@ -35,7 +35,7 @@ server:
         driver: "sql"
 
         sql:
-          driver: "postgres"
+          driver: "postgres12"
           host: pgsql-postgresql.pgsql
           port: 5432
           database: temporal
@@ -48,7 +48,7 @@ server:
         driver: "sql"
 
         sql:
-          driver: "postgres"
+          driver: "postgres12"
           host: pgsql-postgresql.pgsql
           port: 5432
           database: temporal_visibility
