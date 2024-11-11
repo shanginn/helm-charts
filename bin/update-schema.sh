@@ -7,7 +7,7 @@ if ! docker info > /dev/null 2>&1; then
     exit 1
 fi
 
-SQL_PLUGIN=postgres
+SQL_PLUGIN=postgres12
 
 while getopts ":hs:p:u:P:v:" opt; do
   case $opt in
@@ -87,13 +87,13 @@ docker run --rm --entrypoint /bin/bash "temporalio/admin-tools:$NEXT_MINOR_VERSI
     --endpoint $SQL_HOST --port $SQL_PORT \
     --user $SQL_USER --password $SQL_PASSWORD \
     --plugin $SQL_PLUGIN --database temporal \
-    update --schema-dir ./schema/postgresql/v96/temporal/versioned \
+    update --schema-dir ./schema/postgresql/v12/temporal/versioned \
 "
 
 docker run --rm --entrypoint /bin/bash "temporalio/admin-tools:$NEXT_MINOR_VERSION" -c "\
   temporal-sql-tool \
     --endpoint $SQL_HOST --port $SQL_PORT \
     --user $SQL_USER --password $SQL_PASSWORD \
-    --plugin postgres --database temporal_visibility \
-    update --schema-dir ./schema/postgresql/v96/visibility/versioned \
+    --plugin $SQL_PLUGIN --database temporal_visibility \
+    update --schema-dir ./schema/postgresql/v12/visibility/versioned \
 "
